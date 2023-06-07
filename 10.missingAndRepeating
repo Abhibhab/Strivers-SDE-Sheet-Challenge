@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	// Write your code here
+	pair<int,int>pr;
+	int rep;
+	int mis;
+	sort(arr.begin(),arr.end());
+	int sum=arr[0];
+        for (int i = 1; i < n; i++) {
+
+			sum+=arr[i];
+			if(arr[i]==arr[i-1])rep=arr[i];
+
+
+
+        }
+		sum-=rep;
+		int real=n*(n+1);
+		real=real/2;
+		mis=real-sum;
+        return {mis,rep};
+}
