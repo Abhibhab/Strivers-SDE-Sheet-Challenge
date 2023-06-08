@@ -1,0 +1,13 @@
+#include <bits/stdc++.h>
+
+int findMajorityElement(int arr[], int n) {
+	// Write your code here.
+	int no=floor(n/2);
+	map<int,int>mp;
+	for(int it=0;it<n;it++)mp[arr[it]]++;
+        for (auto it : mp) {
+			if(it.second>no)return it.first;
+			else continue;
+        }
+		return -1;
+}
