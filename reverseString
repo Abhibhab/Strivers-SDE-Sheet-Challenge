@@ -1,0 +1,37 @@
+string reverseString(string &str){
+	// Write your code here.
+	vector<string>vec;
+	string temp="";
+	for(int i=0;i<str.length();i++){
+		if(str[i]==' '){
+			if(!temp.empty()){
+				vec.push_back(temp);
+			}
+			temp="";
+		}else{
+			temp+=str[i];
+		}
+
+		// if(isspace(str[i])){
+		// 	vec.push_back(temp);
+		// 	temp="";
+		// 	while(isspace(str[i] ) && i<str.size())i++;
+			
+
+		// }else{
+		// 	temp+=str[i];
+		// }
+
+	}
+	if(!temp.empty()){
+				vec.push_back(temp);
+			}
+	reverse(vec.begin(),vec.end());
+	string ans="";
+	for(auto it:vec){
+		ans+=it;
+		ans+=' ';
+	}
+	return ans;
+
+}
