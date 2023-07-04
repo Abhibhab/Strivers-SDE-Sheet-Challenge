@@ -1,0 +1,57 @@
+//User function Template for C++
+
+class Solution {
+  public:
+   int numProvinces(vector<vector<int>> adj, int v) {
+        map<int,int>mpp;
+        int ans=0;
+        for(int i = 0 ; i<v ; i++)
+        {
+            if(mpp[i]==0)
+            {
+                ans++;
+                mpp[i]=1;
+                queue<int>qu;
+                qu.push(i);
+                while(!qu.empty())
+                {
+                    for(int i=0;i<v;i++)
+                    {
+                        if(adj[qu.front()][i]==1 && mpp[i]==0)
+                        {
+                            qu.push(i);
+                            mpp[i]=1;
+                        }
+                    }
+                    qu.pop();
+                }
+            }
+        }
+        
+        return ans;
+    }      
+  
+    // void dfs(int index,vector<vector<int>> adj,vector<bool>&vis){
+    //     vis[index]=true;
+    //     // ans.push_back(index);
+    //     for(int i=0;i<adj[index].size();i++){
+    //         if(vis[i]==false && adj[index][i]==1){
+    //             dfs(i,adj,vis);
+    //         }
+    //     }
+        
+    // }
+    // int numProvinces(vector<vector<int>> adj, int V) {
+    //     // code here
+    //     vector<bool>vis(V,false);
+    //     int count=0;
+    //     for(int i=0;i<V;i++){
+    //     if(vis[i]==false){
+    //         count++;
+    //         dfs(i,adj,vis);
+    //     }
+            
+    //     }
+    //     return count;
+    // }
+};
