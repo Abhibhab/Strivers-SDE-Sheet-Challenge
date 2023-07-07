@@ -1,0 +1,93 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+class DSU{
+    public:
+    vector<int>size,par;
+    DSU(int n){
+        size.resize(n+1,1);
+        par.resize(n+1);
+        for(int i=0;i<=n;i++){
+            par[i]=i;
+        }
+        
+    }
+    int findpar(int node) {
+        if (node == par[node])
+            return node;
+        return par[node] = findpar(par[node]);
+    }
+    void unisize(int x,int y){
+        int u=findpar(x);
+        int v=findpar(y);
+        if(u==v)return;
+        if(size[u]>size[v]){
+            par[v]=u;
+            size[v]+=size[u];
+        }else{
+            par[v]=u;
+            size[u]+=size[v];
+        }
+    }
+};
+
+class Solution {
+  public:
+  void dfs(int x,int y,vector<vector<char>>&grid,vector<vector<int>>&vis){
+      int n=grid.size(),m=grid[0].size();
+      vis[x][y]=1;
+      for(int i=-1;i<=1;i++){
+          for(int j=-1;j<=1;j++){
+              int nx=x+i;
+              int ny=y+j;
+              if(nx>=0 && ny>=0 && nx<n && ny<m && !vis[nx][ny] && grid[nx][ny]=='1'){
+                  dfs(nx,ny,grid,vis);
+              }
+          }
+      }
+  }
+    // Function to find the number of islands.
+    int numIslands(vector<vector<char>>& grid) {
+        // Code here
+        int count=0;
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(!vis[i][j] && grid[i][j]=='1'){
+                    count++;
+                    dfs(i,j,grid,vis);
+                }
+            }
+        }
+        return count;
+        
+        
+        
+    }
+};
+
+//{ Driver Code Starts.
+int main() {
+    int tc;
+    cin >> tc;
+    while (tc--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<char>> grid(n, vector<char>(m, '#'));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                cin >> grid[i][j];
+            }
+        }
+        Solution obj;
+        int ans = obj.numIslands(grid);
+        cout << ans << '\n';
+    }
+    return 0;
+}
+// } Driver Code Ends
