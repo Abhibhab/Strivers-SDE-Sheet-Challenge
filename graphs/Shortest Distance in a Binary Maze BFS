@@ -1,0 +1,86 @@
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution {
+  public:
+    int shortestPath(vector<vector<int>> &grid, pair<int, int> source,
+                     pair<int, int> destination) {
+        // code here
+        
+        int sourcer=source.first;
+        int sourcec=source.second;
+        int destir=destination.first;
+        int destic=destination.second;
+        int n=grid.size();
+        int m=grid[0].size();
+        if(sourcer==destir && sourcec==destic )return 0;
+        
+        if(grid[sourcer][sourcec]==0 ||grid[destir][destic]==0 )return -1;
+        queue<pair<int,pair<int,int>>>que;
+        que.push({0,{sourcer,sourcec}});
+        vector<vector<int>>ult(n,vector<int>(m,1e9));
+        ult[sourcer][sourcec]=0;
+        int dx[4]={0,0,-1,1};
+        int dy[4]={1,-1,0,0,};
+        while(que.size()){
+            auto ele=que.front();
+            que.pop();
+            int diss=ele.first;
+            int x=ele.second.first;
+            int y=ele.second.second;
+           
+            for(int i=0;i<4;i++){
+                int nx=x+dx[i];
+                int ny=y+dy[i];
+                if(nx>=0 && ny>=0 && nx<n && ny<m && grid[nx][ny]==1 && diss+1<ult[nx][ny]){
+                    ult[nx][ny]=diss+1;
+            //          if(nx==destir && ny==destic){
+            //     return diss+1;
+            // }
+                    que.push({diss+1,{nx,ny}});
+                    
+                }
+                }
+            
+            
+        }
+        // return -1;
+        if(ult[destir][destic]==1e9)return -1;
+        else return ult[destir][destic];
+        
+    }
+};
+
+
+//{ Driver Code Starts.
+int main() {
+
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> grid(n, vector<int>(m));
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                cin >> grid[i][j];
+            }
+        }
+
+        pair<int, int> source, destination;
+        cin >> source.first >> source.second;
+        cin >> destination.first >> destination.second;
+        Solution obj;
+        cout << obj.shortestPath(grid, source, destination) << endl;
+    }
+}
+
+// } Driver Code Ends
