@@ -1,0 +1,44 @@
+#include <bits/stdc++.h> 
+bool helper(int n,int k,vector<int>&arr,  vector<vector<int>>&dp){
+    if(k==0)return true;
+    if(n==0){
+        if(arr[0]==k)return true;
+        else return false;
+    }
+    if(dp[n][k]!=-1)return dp[n][k];
+    bool option1=false;
+    if (k - arr[n] >= 0) {
+      option1 = helper(n - 1, k - arr[n], arr,dp);
+    }
+    int option2=helper(n-1,k,arr,dp);
+    return dp[n][k]=option1||option2;
+    
+}
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    // Write your code here.
+    // vector<vector<int>>dp(n,vector<int>(k+1,-1));
+    // return helper(n-1,k,arr,dp);
+    vector<vector<bool>>dp(n,vector<bool>(k+1,false));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<=k;j++){
+            if(j==0){
+                dp[i][j]=true;
+            }else if(i==0){
+                if(arr[i]==j){
+                    dp[i][j]=true;
+                }
+            }else{
+                bool option1=false;
+               if (j - arr[i] >= 0) {
+                option1 = dp[i - 1][ j- arr[i]];
+             }
+                 int option2=dp[i-1][j];
+                    dp[i][j]=option1||option2;
+
+            }
+        }
+    }
+    return dp[n-1][k];
+    
+
+}
