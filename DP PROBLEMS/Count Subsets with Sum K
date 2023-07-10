@@ -1,0 +1,40 @@
+#define mod 1000000007
+int helper(int index,int k,vector<int>&arr,	vector<vector<int>>dp){
+	if(k==0)return 1;
+	if(index==0){
+		if(arr[0]==k)return 1;
+		else return 0;
+	}
+	if(dp[index][k]!=-1)return dp[index][k];
+	int option1=0;
+	if(k>=arr[index])option1=helper(index-1,k-arr[index],arr,dp);
+	int option2=helper(index-1,k,arr,dp);
+	return dp[index][k]=option1+option2;
+}
+
+int findWays(vector<int>& arr, int k)
+{
+	// Write your code here.
+	int n=arr.size();
+	// vector<vector<int>>dp(n,vector<int>(k+1,-1));
+	// return helper(arr.size()-1,k,arr,dp);
+
+	vector<vector<int>>dp(n,vector<int>(k+1,0));
+	for(int index=0;index<n;index++){
+		for(int j=0;j<=k;j++){
+			if(j==0){
+				dp[index][j]=1;
+			}else if(index==0){
+				if(arr[index]==j)dp[index][j]=1;
+			}else{
+				int option1=0;
+				if(j>=arr[index])option1=dp[index-1][j-arr[index]]%mod;
+				int option2=dp[index-1][j]%mod;
+				dp[index][j]=(option1+option2)%mod;
+
+			}
+		} 
+	}
+	return dp[n-1][k]%mod;
+	
+}
