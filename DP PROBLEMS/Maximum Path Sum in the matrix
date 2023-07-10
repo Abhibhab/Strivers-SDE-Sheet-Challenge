@@ -1,0 +1,27 @@
+#include <bits/stdc++.h> 
+int helper(int i,int j,int n,int m,vector<vector<int>>&matrix, vector<vector<int>>&dp){
+    // if( j>=m || j<0 )return INT_MIN;
+    if(i==n-1 && j<m && j>=0)return matrix[i][j];
+    if(dp[i][j]!=-1)return dp[i][j];
+    int leftdia=INT_MIN;int rightdia=INT_MIN;
+   
+    int down=matrix[i][j]+helper(i+1,j,n,m,matrix,dp);
+    if(j<m-1)
+     leftdia=matrix[i][j]+helper(i+1,j+1,n,m,matrix,dp);
+    if(j>0)
+     rightdia=matrix[i][j]+helper(i+1,j-1,n,m,matrix,dp);
+    return dp[i][j]=max({down,leftdia,rightdia});
+}
+
+int getMaxPathSum(vector<vector<int>> &matrix)
+{
+    //  Write your code here.
+    int n=matrix.size();
+    int m=matrix[0].size();
+    vector<vector<int>>dp(n,vector<int>(m,-1));
+    int mini=INT_MIN;
+    for(int i=0;i<m;i++){
+        mini=max(mini,helper(0,i,n,m,matrix,dp));
+    }
+    return mini;
+}
