@@ -1,0 +1,36 @@
+#include <bits/stdc++.h> 
+int minSubsetSumDifference(vector<int>& arr, int n)
+{
+	// Write your code here.
+	int k=accumulate(arr.begin(),arr.end(),0);
+	    vector<vector<bool>>dp(n,vector<bool>(k+1,false));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<=k;j++){
+            if(j==0){
+                dp[i][j]=true;
+            }else if(i==0){
+                if(arr[i]==j){
+                    dp[i][j]=true;
+                }
+            }else{
+                bool option1=false;
+               if (j - arr[i] >= 0) {
+                option1 = dp[i - 1][ j- arr[i]];
+             }
+                 int option2=dp[i-1][j];
+                    dp[i][j]=option1||option2;
+
+            }
+        }
+    }
+	int ans=INT_MAX;
+	for(int i=0;i<=k;i++){
+          if (dp[n - 1][i] == true) {
+			  int val1=i;
+			  int val2=k-i;
+            ans = min(ans,abs(val1-val2) );
+          }
+        }
+		return ans;
+    
+}
