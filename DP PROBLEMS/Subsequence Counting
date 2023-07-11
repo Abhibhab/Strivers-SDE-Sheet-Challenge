@@ -1,0 +1,37 @@
+#include <bits/stdc++.h> 
+int mod=int(1e9+7);
+int helper(int ind1,int ind2,string &s, string &t,vector<vector<int>>&dp){
+    if(ind2==0)return 1;
+    if(ind1==0)return 0;
+    if(dp[ind1][ind2]!=-1)return dp[ind1][ind2];
+    if(s[ind1-1]==t[ind2-1]){
+        int take=helper(ind1-1,ind2-1,s,t,dp);
+        int nottake=helper(ind1-1,ind2,s,t,dp);
+        return dp[ind1][ind2]=(take+nottake)%mod;
+    }
+    return dp[ind1][ind2]=helper(ind1-1,ind2,s,t,dp);
+}
+int subsequenceCounting(string &s, string &t, int ls, int lt) {
+    // Write your code here.
+    // vector<vector<int>>dp(ls+1,vector<int>(lt+1,-1));
+    // return helper(ls,lt,s,t,dp)%mod;
+    vector<vector<int>>dp(ls+1,vector<int>(lt+1,0));
+    
+    for(int i=0;i<=ls;i++){
+        dp[i][0]=1;
+    }
+    for(int ind1=1;ind1<=ls;ind1++){
+        for(int ind2=1;ind2<=lt;ind2++){
+              if(s[ind1-1]==t[ind2-1]){
+        int take=dp[ind1-1][ind2-1];
+        int nottake=dp[ind1-1][ind2];
+        dp[ind1][ind2]=(take+nottake)%mod;
+    }
+   else dp[ind1][ind2]=dp[ind1-1][ind2];
+
+        }
+    }
+    return dp[ls][lt];
+
+
+} 
