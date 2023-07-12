@@ -1,0 +1,65 @@
+#include <bits/stdc++.h> 
+bool comp(string &s1,string &s2){
+    return s1.size()<s2.size();
+}
+bool comp2(string& s1, string& s2){
+    if(s1.size() != s2.size() + 1) return false;
+    
+    int first = 0;
+    int second = 0;
+    
+    while(first < s1.size()){
+        if(second < s2.size() && s1[first] == s2[second]){
+            first ++;
+            second ++;
+        }
+        else first ++;
+    }
+    if(first == s1.size() && second == s2.size()) return true;
+    else return false; 
+}
+int lss(vector<string> arr, int n) {
+	// Write your code here
+	vector<int>dp(n,1),hash(n,1);
+	int maixmum=0,lastIndex=0;
+	for(int i=0;i<n;i++){
+		hash[i]=i;
+		for(int prev=0;prev<=i-1;prev++){
+			if(comp2(arr[i],arr[prev])){
+				if(dp[i]<dp[prev]+1){
+					dp[i]=dp[prev]+1;
+					hash[i]=prev;
+				}
+			}
+		}
+	}
+	int num=0;
+	for(int i=0;i<n;i++){
+		if(dp[i]>num){
+			num=dp[i];
+			lastIndex=i;
+		}
+
+	}
+    return num;
+    // vector<int> temp;
+    // temp.push_back(arr[lastIndex]);
+
+    // while (hash[lastIndex] !=
+    //        lastIndex) { // till not reach the initialization value
+    //   lastIndex = hash[lastIndex];
+    //   temp.push_back(arr[lastIndex]);
+    // }
+
+    // // reverse the array
+    // reverse(temp.begin(), temp.end());
+    // return num;
+}
+
+int longestStrChain(vector<string> &arr)
+{
+    // Write your code here.
+    sort(arr.begin(),arr.end(),comp);
+    return lss(arr,arr.size());
+
+}
