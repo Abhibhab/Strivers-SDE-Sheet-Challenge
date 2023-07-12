@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+int maximumProfit(vector<int> &values, int n, int k)
+{
+        vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(k+1,0)));
+    // for(int ind)
+    // return helper(0,1,n,2,values,dp);
+    for(int ind=n-1;ind>=0;ind--){
+        for(int buy=0;buy<=1;buy++){
+            for(int tns=1;tns<=k;tns++){
+                        int ans=0;
+            if(buy==1){
+                int take=-values[ind]+dp[ind+1][0][tns];
+                int nottake=dp[ind+1][buy][tns];
+                ans=max({ans,take,nottake});
+
+            }else{
+                int sell=+values[ind]+dp[ind+1][1][tns-1];
+                int notsell=dp[ind+1][buy][tns];
+                ans=max({ans,sell,notsell});
+
+            }
+           dp[ind][buy][tns]= ans;
+
+            }
+        }
+    }
+    return dp[0][1][k];
+}
