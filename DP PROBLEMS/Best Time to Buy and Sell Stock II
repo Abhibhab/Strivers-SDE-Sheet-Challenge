@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+long helper(int ind,int buy,int n,long *values, vector<vector<long>>&dp){
+    if(ind==n)return 0;
+    if(dp[ind][buy]!=-1)return dp[ind][buy];
+    long ans=0;
+    if(buy==1){
+        long take=-values[ind]+helper(ind+1,0,n,values,dp);
+        long nottake=helper(ind+1,buy,n,values,dp);
+        ans=max({ans,take,nottake});
+
+    }else{
+        long sell=+values[ind]+helper(ind+1,1,n,values,dp);
+        long notsell=helper(ind+1,buy,n,values,dp);
+        ans=max({ans,sell,notsell});
+
+    }
+    return dp[ind][buy]= ans;
+
+}
+
+long getMaximumProfit(long *values, int n)
+{
+    //Write your code here
+    // vector<vector<long>>dp(n+1,vector<long>(2,-1));
+    // return helper(0,1,n,values,dp);
+    vector<vector<long>>dp(n+1,vector<long>(2,0));
+    vector<long>prev(2,0),curr(2,0);
+    // prev[0]=prev[1]=0;
+    for(int ind=n-1;ind>=0;ind--){
+        for(int buy=0;buy<=1;buy++){
+              long ans=0;
+      if(buy==1){
+        long take=-values[ind]+prev[0];
+        long nottake=prev[buy];
+        ans=max({ans,take,nottake});
+
+     }else{
+        long sell=+values[ind]+prev[1];
+        long notsell=prev[buy];
+        ans=max({ans,sell,notsell});
+
+    }
+   curr[buy]= ans;
+
+        }
+        prev=curr;
+    }
+    return prev[1];
+
+    
+}
