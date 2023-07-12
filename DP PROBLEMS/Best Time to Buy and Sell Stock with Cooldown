@@ -1,0 +1,27 @@
+#include <bits/stdc++.h> 
+
+int helper(int ind,int buy,int n,vector<int> &values, vector<vector<int>>&dp){
+    if(ind>=n)return 0;
+    if(dp[ind][buy]!=-1)return dp[ind][buy];
+    int ans=0;
+    if(buy==1){
+        int take=-values[ind]+helper(ind+1,0,n,values,dp);
+        int nottake=helper(ind+1,buy,n,values,dp);
+        ans=max({ans,take,nottake});
+
+    }else{
+        int sell=+values[ind]+helper(ind+2,1,n,values,dp);
+        int notsell=helper(ind+1,buy,n,values,dp);
+        ans=max({ans,sell,notsell});
+
+    }
+    return dp[ind][buy]= ans;
+
+}
+
+int stockProfit(vector<int> &values){
+    // Write your code here.
+    int n=values.size();
+    vector<vector<int>>dp(n+1,vector<int>(2,-1));
+    return helper(0,1,n,values,dp);
+}
