@@ -1,0 +1,45 @@
+#include <bits/stdc++.h> 
+vector<int> LSS(vector<int> arr, int n) {
+	// Write your code here
+    sort(arr.begin(),arr.end());
+	vector<int>dp(n,1),hash(n,1);
+	int maixmum=0,lastIndex=0;
+	for(int i=0;i<n;i++){
+		hash[i]=i;
+		for(int prev=0;prev<=i-1;prev++){
+			if(arr[i]%arr[prev]==0){
+				if(dp[i]<dp[prev]+1){
+					dp[i]=dp[prev]+1;
+					hash[i]=prev;
+				}
+			}
+		}
+	}
+	int num=0;
+	for(int i=0;i<n;i++){
+		if(dp[i]>num){
+			num=dp[i];
+			lastIndex=i;
+		}
+
+	}
+    vector<int> temp;
+    temp.push_back(arr[lastIndex]);
+
+    while (hash[lastIndex] !=
+           lastIndex) { // till not reach the initialization value
+      lastIndex = hash[lastIndex];
+      temp.push_back(arr[lastIndex]);
+    }
+
+    // reverse the array
+    reverse(temp.begin(), temp.end());
+    return temp;
+}
+
+vector<int> divisibleSet(vector<int> &arr){
+    // Write your code here.
+
+
+    return LSS(arr,arr.size());
+}
