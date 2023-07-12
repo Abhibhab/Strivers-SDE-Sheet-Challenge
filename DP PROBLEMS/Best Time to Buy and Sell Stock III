@@ -1,0 +1,81 @@
+#include <bits/stdc++.h> 
+
+int helper(int ind,int buy,int n,int tns,vector<int>&values,vector<vector<vector<int>>>&dp){
+    if(tns==0)return 0;
+    if(ind==n)return 0;
+    if(dp[ind][buy][tns]!=-1)return dp[ind][buy][tns];
+    int ans=0;
+    if(buy==1){
+        int take=-values[ind]+helper(ind+1,0,n,tns,values,dp);
+        int nottake=helper(ind+1,buy,n,tns,values,dp);
+        ans=max({ans,take,nottake});
+
+    }else{
+        int sell=+values[ind]+helper(ind+1,1,n,tns-1,values,dp);
+        int notsell=helper(ind+1,buy,n,tns,values,dp);
+        ans=max({ans,sell,notsell});
+
+    }
+    return dp[ind][buy][tns]= ans;
+
+}
+
+// long getMaximumProfit(long *values, int n)
+// {
+//     //Write your code here
+//     // vector<vector<long>>dp(n+1,vector<long>(2,-1));
+//     // return helper(0,1,n,values,dp);
+//     vector<vector<long>>dp(n+1,vector<long>(2,0));
+//     vector<long>prev(2,0),curr(2,0);
+//     // prev[0]=prev[1]=0;
+//     for(int ind=n-1;ind>=0;ind--){
+//         for(int buy=0;buy<=1;buy++){
+//               long ans=0;
+//       if(buy==1){
+//         long take=-values[ind]+prev[0];
+//         long nottake=prev[buy];
+//         ans=max({ans,take,nottake});
+
+//      }else{
+//         long sell=+values[ind]+prev[1];
+//         long notsell=prev[buy];
+//         ans=max({ans,sell,notsell});
+
+//     }
+//    curr[buy]= ans;
+
+//         }
+//         prev=curr;
+//     }
+//     return prev[1];
+
+    
+// }
+int maxProfit(vector<int>& values, int n)
+{
+    // Write your code here.
+    vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(3,0)));
+    // for(int ind)
+    // return helper(0,1,n,2,values,dp);
+    for(int ind=n-1;ind>=0;ind--){
+        for(int buy=0;buy<=1;buy++){
+            for(int tns=1;tns<=2;tns++){
+                        int ans=0;
+            if(buy==1){
+                int take=-values[ind]+dp[ind+1][0][tns];
+                int nottake=dp[ind+1][buy][tns];
+                ans=max({ans,take,nottake});
+
+            }else{
+                int sell=+values[ind]+dp[ind+1][1][tns-1];
+                int notsell=dp[ind+1][buy][tns];
+                ans=max({ans,sell,notsell});
+
+            }
+           dp[ind][buy][tns]= ans;
+
+            }
+        }
+    }
+    return dp[0][1][2];
+}
