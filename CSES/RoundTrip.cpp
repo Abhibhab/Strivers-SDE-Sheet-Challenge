@@ -4,7 +4,7 @@
 // #include <regex>
 using namespace std;
 #define ll            long long int
-
+ 
 #define F              first
 #define S              second
 #define pb             push_back
@@ -65,8 +65,8 @@ void __f (const char* names, Arg1&& arg1, Args&&... args)
 }
 inline int power(int a, int b) {int x = 1; while (b) {if (b & 1) x *= a; a *= a; b >>= 1;} return x;}
 #define int long long
-
-
+ 
+ 
 // void solve() {
 //     int n, m;
 //     cin >> n >> m;
@@ -96,7 +96,7 @@ inline int power(int a, int b) {int x = 1; while (b) {if (b & 1) x *= a; a *= a;
 //                 q.push(to);
 //             }
 //         }
-
+ 
 //     }
 //     if (topo.size() == n) {
 //         cout << "NO" << nl;
@@ -107,27 +107,27 @@ inline int power(int a, int b) {int x = 1; while (b) {if (b & 1) x *= a; a *= a;
 //             if (topo.find(i) == topo.end()) {
 //                 cycle.push_back(i);
 //             }
-
-
+ 
+ 
 //         }
-
+ 
 //     }
-
+ 
 // }
 bool dfs(int node, vector<int>adj[], vector<int>&vis, int par, vector<int>&path) {
     vis[node] = 1;
-
+ 
     for (auto it : adj[node]) {
         path.push_back(it);
-
+ 
         if (!vis[it]) {
             if (dfs(it, adj, vis, node, path))return 1;
-
+ 
         } else if (it != par)return 1;
         path.pop_back();
-
+ 
     }
-
+ 
     return 0;
 }
 void solve() {
@@ -161,7 +161,7 @@ void solve() {
     //             q.push(to);
     //         }
     //     }
-
+ 
     // }
     // int bro = topo.size();
     // if ( bro == n) {
@@ -173,31 +173,29 @@ void solve() {
     //     if (topo.find(i) == topo.end()) {
     //         cycle.push_back(i);
     //     }
-
-
+ 
+ 
     // }
     vector<int>vis(n + 1, 0);
-
+ 
     vector<int>path;
     for (int i = 1; i <= n; i++) {
         int it = i;
-
+ 
         path.pb(it);
-        // debug(path);
-
-
-
+ 
+ 
+ 
         if (!vis[it] and dfs(it, adj, vis, 0, path)) {
-            debug(path);
-
+ 
             vi ans = {*path.rbegin()};
             for (auto j = path.rbegin() + 1; j != path.rend(); j++) {
                 ans.pb(*j);
                 if (*j == *path.rbegin()) break;
             }
-
-
-
+ 
+ 
+ 
             cout << ans.size() << nl;
             for (auto it : ans) {
                 cout << it << ' ';
@@ -206,37 +204,37 @@ void solve() {
             return;
         }
         path.pop_back();
-
+ 
     }
     cout << "IMPOSSIBLE" << nl;
-
-
-
+ 
+ 
+ 
     // }
-
+ 
 }
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
 signed main()
 {
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-
-
+ 
+ 
     // #ifndef ONLINE_JUDGE
     //  freopen("input.txt",  "r",  stdin);
     //  freopen("output.txt", "w", stdout);
     // #endif
     // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
     clock_t z = clock();
-
+ 
     int t = 1;
     // cin >> t;
     while (t--) solve();
-
+ 
     cerr << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC);
-
+ 
     // return 0;
-} 
+}
